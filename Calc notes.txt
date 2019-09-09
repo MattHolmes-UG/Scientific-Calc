@@ -1,0 +1,20 @@
+Basic calc functions
+Addition
+Subtraction
+Multiplication
+Division
+Trig ratios
+Square root and squares
+Quadratic equations
+simultaneous equations and log (optional)
+
+Some UI specs:
+centralized views
+smaller buttons than currently on the ui
+add a delete/backspace button
+Input and display differentiated
+Accepts keyboard input but just nums and relevant symbols
+Response should be more interactive (optional)
+Requires a valid name to show calc (optional)
+
+-should accept expressions outside the range of eval()

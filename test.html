@@ -1,0 +1,79 @@
+<style>
+
+</style>
+
+<!-- <input onblur="run()"> -->
+
+<script>
+    const run = function () {
+        const input = "cos(30 + (4/2)*(sqrt(9)*(2-log(10)+(51 + 8))))";
+        //create an object or array container
+        let inpArr = [];
+        //store the first expression in a different array untouched
+        inpArr[inpArr.length] = input;
+        //store a split of the expression
+        inpArr[inpArr.length] = input.split('');
+        const arr1 = inpArr[inpArr.length - 1];
+        //loop through the splited array and for every ( open up another store array
+        for (let i = 0; i < arr1.length; i++) {
+            if (/\(/.test(arr1[i]) && !(/s/.test(arr1[i - 1]) || /t/.test(arr1[i - 1]) || /n/.test(arr1[i - 1]) || /g/.test(arr1[i - 1]))) {
+                inpArr[inpArr.length] = [];
+                for (let j = 2; j < inpArr.length; j++) {
+                    inpArr[j].push(arr1[i]);
+                }
+            } else if (/s/.test(arr1[i]) && (/i/.test(arr1[i+1]) || /q/.test(arr1[i+1]))) {//for sin or sqrt
+                inpArr[inpArr.length] = [];
+                for (let j = 2; j < inpArr.length; j++) {
+                    inpArr[j].push(arr1[i]);
+                }
+            } else if (/t/.test(arr1[i]) && /a/.test(arr1[i+1])) { //for tan
+                inpArr[inpArr.length] = [];
+                for (let j = 2; j < inpArr.length; j++) {
+                    inpArr[j].push(arr1[i]);
+                }
+            } else if (/c/.test(arr1[i]) && /o/.test(arr1[i + 1])) { //for cos
+                inpArr[inpArr.length] = [];
+                for (let j = 2; j < inpArr.length; j++) {
+                    inpArr[j].push(arr1[i]);
+                }
+            } else if (/l/.test(arr1[i]) && /o/.test(arr1[i + 1])) { //for log
+                inpArr[inpArr.length] = [];
+                for (let j = 2; j < inpArr.length; j++) {
+                    inpArr[j].push(arr1[i]);
+                }
+            } else {
+                for (let j = 2; j < inpArr.length; j++) {
+                    // for (let k = 0; k < inpArr[j]; k++) {
+                    //     inpArr[j][k] = arr1[i];
+                    // }
+                    inpArr[j].push(arr1[i]);
+                }
+            }
+        }
+        //for every ) close the immediate store array
+        //when loop is done, loop through object properties or array's arrays and
+        for (let i = 1; i < inpArr.length; i++) { //to eliminate excess brackets at the end of arrays/expressions
+            for (let j = 0; j < inpArr[i].length; j++) {
+                const curArr = inpArr[i];
+                const curArrLen = curArr.length;
+                const lastchar = curArr[curArrLen - 1];
+                const secLastChar = curArr[curArrLen - 2];
+                //if (curArr[j] === ")") {
+                if (lastchar === ")" && secLastChar === ")") {
+                    curArr.pop();
+                }
+                //}
+            }
+        }
+        console.log(inpArr);
+        console.log(inpArr[inpArr.length - 1].join(""));
+        //evaluate each expression
+        //evaluate the first expression
+        //check if the first char is a bracket or alpha
+        //if it is a bracket check if there is a closing bracket, if not add one and eval
+        //if first char is an alpha, check to find operand, extract, eval and remove closing bracket if there's one
+        //eval remaining expression
+
+        //join the next expression array and replace with value of first and then evaluate
+    }();
+</script>

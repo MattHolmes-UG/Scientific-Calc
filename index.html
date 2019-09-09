@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+    <div class=" cont mt-5 bg-light">
+        <table  class="table " style="width: 100%;">
+            <tr class="empty">
+
+            </tr>
+            <tr class=" mt-5" style="width:100%;" >
+              <td id="inputLabel" class="inputLabel pt-5"></td>  
+            </tr>
+            <tr id="input" class=" mt-5" style="width:100%;">
+              <td><input style="width:100%;"/></td>
+            </tr>
+            <tr id="quadInput" class=" mt-5" style="width:100%; display: none;">
+                <td>
+                    <input class="int" id="a">x<sup>2</sup>
+                    <input class="int" id="b">x
+                    <input class="int" id="c"> = 0
+                      
+                    <button style="margin-left: 9em;" onclick="solveQuad();">solve</button>
+                </td>
+            </tr>
+            <tr id="simul" class=" mt-5" style="width:100%; display: none;">
+                <td>
+                    <div class="sim">
+                        <input class="eqn1" id="a">x
+                        <input class="eqn1" id="b">y = <input id="c" class="eqn1">
+                    </div>
+                    <div class="sim">
+                        <input class="eqn2" id="d">x
+                        <input class="eqn2" id="e">y = <input id="f" class="eqn2">
+                        
+                        <button style="margin-left: 9em;" onclick="solveSim();">solve</button>
+                    </div>
+                </td>
+            </tr>
+            <div class="row">
+            <tr class="tr d-flex">
+                <td class=" ac "><button onclick="pushBtn(this);">AC</button></td>
+                <td ><button onclick="pushBtn(this);">quad</button></td>  
+                <td ><button onclick="pushBtn(this);">simul</button></td>  
+                <td ><button onclick="pushBtn(this);">del</button></td>  
+            </tr>
+            </div>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">sin</button></td>
+                <td><button class="math" onclick="pushBtn(this);">cos</button></td>
+                <td><button class="math" onclick="pushBtn(this);">tan</button></td>
+                <td><button class="math" onclick="pushBtn(this);">^2</button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">log</button></td>
+                <td><button class="math" onclick="pushBtn(this);">exp</button></td>
+                <td><button class="math" onclick="pushBtn(this);">!</button></td>
+                <td><button class="math" onclick="pushBtn(this);">^3</button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">sin<sup>-1</sup></button></td>
+                <td><button class="math" onclick="pushBtn(this);">cos<sup>-1</sup></button></td>
+                <td><button class="math" onclick="pushBtn(this);">tan<sup>-1</sup></button></td>
+                <td><button class="math" onclick="pushBtn(this);">sqrt</button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button onclick="pushBtn(this);">7</button></td>
+                <td><button onclick="pushBtn(this);">8</button></td>
+                <td><button onclick="pushBtn(this);">9</button></td>
+                <td><button onclick="pushBtn(this);">*</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button onclick="pushBtn(this);">4</button></td>
+                <td><button onclick="pushBtn(this);">5</button></td>
+                <td><button onclick="pushBtn(this);">6</button></td>
+                <td><button onclick="pushBtn(this);">-</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button onclick="pushBtn(this);">3</button></td>
+                <td><button onclick="pushBtn(this);">2</button></td>
+                <td><button onclick="pushBtn(this);">1</button></td>
+                <td><button onclick="pushBtn(this);">+</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center ">
+                <td><button onclick="pushBtn(this);">0</button></td>
+                <td><button onclick="pushBtn(this);">.</button></td>
+                <td><button id="equalTo" onclick="pushBtn(this);">=</button></td>
+                <td><button onclick="pushBtn(this);">/</button></td>
+            </tr>
+        </table>
+    </div>
+<script>
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/Calc/sw.js', {scope: '/Calc/'});
+    }
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="bootstrap.min.js"></script>
+<script src="calc.js"></script>
+</body>
+</html>

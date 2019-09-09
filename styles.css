@@ -1,0 +1,42 @@
+button{
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+}
+.yes{
+    margin-right: x50px;
+}
+.cont{
+    width: 450px;
+    border: 1px solid black;
+    border-radius: 1em;
+    margin: auto;
+}
+.math{
+    border-radius: 30px;
+}
+.empty{
+    height: 30px;
+}
+.ac{
+    margin-left: 1em;
+}
+.int{
+    width: 1.5em;
+    margin-left: 1em;
+}
+#quadInput, #simul{
+    margin-top: 1em !important;
+}
+.eqn1, .eqn2{
+    width: 1.5em;
+    margin-left: 1em;
+    margin-top: .7em;
+}
+#inputLabel{
+    background: white;
+    border: 1px solid black;
+    height: 50px;
+    padding-top: 20px;
+    box-shadow:  0px 0px 4px rgba(0, 0, 0, 0.25);;
+}
