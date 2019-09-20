@@ -1,13 +1,16 @@
 button{
-    width: 80px;
+    width: 3.9em;
     height: 30px;
     border-radius: 10px;
 }
 .yes{
     margin-right: x50px;
 }
+/* .table {
+
+} */
 .cont{
-    width: 450px;
+    width: 23em;
     border: 1px solid black;
     border-radius: 1em;
     margin: auto;
@@ -16,17 +19,23 @@ button{
     border-radius: 30px;
 }
 .empty{
-    height: 30px;
-}
-.ac{
-    margin-left: 1em;
+    height: 2em;
 }
 .int{
     width: 1.5em;
     margin-left: 1em;
 }
-#quadInput, #simul{
-    margin-top: 1em !important;
+#quadInput {
+    margin-top: -1em !important;
+    margin-bottom: .2em !important;
+    margin-left: .6em !important;
+} 
+#simul{
+    margin-top: -2em !important;
+    margin-left: .6em !important;
+}
+.tdeqn {
+    border-top: none !important;
 }
 .eqn1, .eqn2{
     width: 1.5em;
@@ -35,8 +44,21 @@ button{
 }
 #inputLabel{
     background: white;
-    border: 1px solid black;
-    height: 50px;
+    height: 3em;
     padding-top: 20px;
     box-shadow:  0px 0px 4px rgba(0, 0, 0, 0.25);;
+}
+#input {
+    background: white;
+    border: 1px solid #aaaaaa;
+    width: 100%;
+    max-height: 2em;
+    padding: .2em;
+}
+#solvebtn {
+    margin-left: 4.6em;
+}
+table tr {
+    margin-top: -0.3em !important;
+    margin-bottom: -0.3em !important;
 }

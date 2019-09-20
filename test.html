@@ -1,79 +1,497 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
 
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="calcicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="bootstrap.min.css">
+</head>
 
-<!-- <input onblur="run()"> -->
+<body>
+    <div class=" cont mt-5 bg-light">
+        <table class="table " style="width: 100%;">
+            <tr class="empty">
+
+            </tr>
+            <tr class=" mt-5" style="width:100%;">
+                <td id="inputLabel" class="inputLabel pt-5"></td>
+            </tr>
+            <tr class=" mt-5" style="width:100%;">
+                <td>
+                    <div id="input" contenteditable="true"></div>
+                </td>
+            </tr>
+            <tr id="quadInput" class=" mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    <input class="int" id="a">x<sup>2</sup>
+                    <input class="int" id="b">x
+                    <input class="int" id="c"> = 0
+
+                    <button class="math" id="solvebtn" onclick="solveQuad();">solve</button>
+                </td>
+            </tr>
+            <tr id="simul" class=" mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    <div class="sim">
+                        <input class="eqn1" id="a">x
+                        <input class="eqn1" id="b">y = <input id="c" class="eqn1">
+                    </div>
+                    <div class="sim">
+                        <input class="eqn2" id="d">x
+                        <input class="eqn2" id="e">y = <input id="f" class="eqn2">
+
+                        <button class="math" id="solvebtn" onclick="solveSim();">solve</button>
+                    </div>
+                </td>
+            </tr>
+            <div class="row">
+                <tr class="tr d-flex justify-content-center">
+                    <td><button class="math" onclick="pushBtn(this);">AC</button></td>
+                    <td><button class="math" onclick="pushBtn(this);">(</button></td>
+                    <td><button class="math" onclick="pushBtn(this);">)</button></td>
+                    <td><button class="math" onclick="pushBtn(this);">del</button></td>
+                </tr>
+            </div>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);" value="log(">log</button></td>
+                <td><button class="math" onclick="pushBtn(this);">quad</button></td>
+                <td><button class="math" onclick="pushBtn(this);">simul</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="^">x<sup>y</sup></button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);" value="sin(">sin</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="cos(">cos</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="tan(">tan</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="&sup2">x<sup>2</sup></button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);" value="exp(">exp</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="!">x !</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="&#x221B;(">&#x221B;x</button></td>
+                <td><button class="math" onclick="pushBtn(this);" value="&sup3">x<sup>3</sup></button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);" value="sin<sup>-1</sup>(">sin<sup>-1</sup></button>
+                </td>
+                <td><button class="math" onclick="pushBtn(this);" value="cos<sup>-1</sup>(">cos<sup>-1</sup></button>
+                </td>
+                <td><button class="math" onclick="pushBtn(this);" value="tan<sup>-1</sup>(">tan<sup>-1</sup></button>
+                </td>
+                <td><button class="math" onclick="pushBtn(this);" value="&radic;(">&radic;x</button></td>
+            </tr>
+
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">7</button></td>
+                <td><button class="math" onclick="pushBtn(this);">8</button></td>
+                <td><button class="math" onclick="pushBtn(this);">9</button></td>
+                <td><button class="math" onclick="pushBtn(this);">*</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">4</button></td>
+                <td><button class="math" onclick="pushBtn(this);">5</button></td>
+                <td><button class="math" onclick="pushBtn(this);">6</button></td>
+                <td><button class="math" onclick="pushBtn(this);">-</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math" onclick="pushBtn(this);">3</button></td>
+                <td><button class="math" onclick="pushBtn(this);">2</button></td>
+                <td><button class="math" onclick="pushBtn(this);">1</button></td>
+                <td><button class="math" onclick="pushBtn(this);">+</button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center ">
+                <td><button class="math" onclick="pushBtn(this);">0</button></td>
+                <td><button class="math" onclick="pushBtn(this);">.</button></td>
+                <td><button class="math" id="equalTo" onclick="pushBtn(this);">=</button></td>
+                <td><button class="math" onclick="pushBtn(this);">/</button></td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <script src="bootstrap.min.js"></script>
+</body>
 
 <script>
+    const inputDisplay = document.querySelector("#input");
+    const display = document.querySelector("#inputLabel");
+    const ints = document.querySelectorAll('.int');
+    const int = document.querySelectorAll('.eqn1'); //for simultaneous 1
+    const ints2 = document.querySelectorAll('.eqn2'); //for simultaneous 2
+
+    const previousExp = []; //to store the previous expressions
+    let ans; //to store the answer
+
+    //focus on input after pageload
+    display.innerHTML = '0';
+    window.onload = () => { inputDisplay.focus(); }
+
+    //get the input from keyboard directly or input or from ui btns clicked
+    const check = (char) => {
+        //prevent alphabets
+        const valid = /[0-9]|(Backspace)|(Shift)|\+|\-|\*|\!|\^|\//.test(char);
+        if (valid) {
+            return true;
+        } else {
+            event.preventDefault();
+        }
+    }
+
+    input.addEventListener('keypress', (event) => {
+        const char = event.key;
+        if (event.key === "Enter") { pushBtn({ innerHTML: '=' }); }
+        check(char);
+    });
+    //to evaluate the expression when user presses enter
+    // document.addEventListener('keypress', (event) => {
+    //     if (event.key === "Enter") { pushBtn(equalTo); }
+    // });
+
+    const solveQuad = () => {
+        const a = Number(ints[0].value),
+            b = Number(ints[1].value),
+            c = Number(ints[2].value);
+        let sqrt = Math.sqrt(b * b - (4 * a * c));
+        let x1, x2;
+        x1 = eval((-b - sqrt) / (2 * a));
+        x2 = eval((-b + sqrt) / (2 * a));
+        display.innerHTML = `<p>x<sub>1</sub> = ${x1}</p><p>x<sub>2</sub> = ${x2}</p>`
+    }
+
+    const solveSim = () => {
+        let eqn1 = [Number(int[0].value), Number(int[1].value), Number(int[2].value)],
+            eqn2 = [Number(ints2[0].value), Number(ints2[1].value), Number(ints2[2].value)];
+        eqn11 = eqn1.map((i) => { return eqn2[0] * i });
+        eqn21 = eqn2.map((i) => { return eqn1[0] * i });
+        const y = (eqn11[2] - eqn21[2]) / (eqn11[1] - eqn21[1]);
+        const x = (eqn1[2] - (eqn1[1] * (y))) / eqn1[0];
+        display.innerHTML = `<p>x = ${x}</p><p>y = ${y}</p>`
+    }
+
+    const pushBtn = (obj) => {
+        const pushed = obj.value || obj.innerHTML;
+        const inpLen = inputDisplay.innerHTML.length;
+        // if (ans !== undefined && previousExp[previousExp.length-1] === inputDisplay.innerHTML
+        //  && display.innerHTML !== 0 && ans === display.innerHTML) {
+        //     inputDisplay.innerHTML = "";
+        // }
+
+        switch (pushed) {
+            case 'AC':
+                display.innerHTML = '0';
+                inputDisplay.innerHTML = "";
+                document.querySelector("#input").style.display = "block";
+                document.querySelector('#quadInput').style.display = "none";
+                document.querySelector('#simul').style.display = "none";
+                //input.focus();
+                break;
+            case 'del':
+                if (inputDisplay.innerHTML[inpLen - 1] === '(') {
+                    if (/n|s|p|g/.test(inputDisplay.innerHTML[inpLen - 2])) { //to delete operands like cos and log
+                        inputDisplay.innerHTML = inputDisplay.innerHTML.slice(0, inpLen - 4);
+                        break;
+                    } else if (/\∛|\√/.test(inputDisplay.innerHTML[inpLen - 2])) {
+                        inputDisplay.innerHTML = inputDisplay.innerHTML.slice(0, inpLen - 2);
+                        break;
+                    }
+                }
+                inputDisplay.innerHTML = inputDisplay.innerHTML.slice(0, inpLen - 1);
+                //input.focus();
+                break;
+            case 'simul':
+            case 'quad':
+                document.querySelector("#input").style.display = "none";
+                const visible = pushed === 'quad' ? "block" : "none",
+                    visSim = pushed === 'simul' ? "block" : "none";
+                document.querySelector('#quadInput').style.display = visible;
+                document.querySelector('#simul').style.display = visSim;
+
+                ints[0].focus();
+                int[0].focus();
+            case '=':
+                if (inputDisplay.innerHTML === '') {
+                    display.innerHTML = '0';
+                    inputDisplay.innerHTML = "";
+                    break;
+                }
+                try {
+                    run();
+                } catch (error) {
+                    display.innerHTML = "Error - Please make sure the expression is valid";
+                }
+                break;
+            case 'cos(':
+            case 'sin(':
+            case 'tan(':
+            case 'log(':
+            case 'exp(':
+            case 'sin<sup>-1</sup>(':
+            case 'cos<sup>-1</sup>(':
+            case 'tan<sup>-1</sup>(':
+                if (inputDisplay.innerHTML.length > 0 && /[0-9]/.test(inputDisplay.innerHTML[inputDisplay.innerHTML.length - 1])) {
+                    inputDisplay.innerHTML += `*${pushed}`;
+                    console.log(true);
+                    break;
+                }
+                inputDisplay.innerHTML += pushed;
+                break;
+            default:
+                inputDisplay.innerHTML += pushed;
+        }
+    }
+
     const run = function () {
-        const input = "cos(30 + (4/2)*(sqrt(9)*(2-log(10)+(51 + 8))))";
+        let input = inputDisplay.innerHTML;
+        console.log('input: ', input);
+        //replace sin or cos<sup></sup> with asin or acos
+        if (/(sin|cos|tan)<\w+>\-1<\/\w+>/.test(input)) {
+            if (/(sin)<\w+>\-1<\/\w+>/.test(input)) {
+                input = input.replace(/(sin)<\w+>\-1<\/\w+>/g, 'asin');
+            } else if (/(cos)<\w+>\-1<\/\w+>/.test(input)) {
+                input = input.replace(/(cos)<\w+>\-1<\/\w+>/g, 'acos');
+            } else if (/(tan)<\w+>\-1<\/\w+>/.test(input)) {
+                input = input.replace(/(tan)<\w+>\-1<\/\w+>/g, 'atan');
+            }
+        }
+        if (/\²/.test(input)) { input = input.replace(/\²/g, '^2'); } //to replace 9² with 9^2
+        if (/\³/.test(input)) { input = input.replace(/\³/g, '^3'); } //to replace 8³ with 8^3
+        if (/(\d+|\))(\∛|\√)/.test(input)) { //to turn 9cos to 9*cos 9²8³∛(√(
+            input = input.replace(/\∛/g, '*∛');
+            input = input.replace(/\√/g, '*√');
+            console.log('replacer block gave: ', input);
+        }
+        console.log('input: ', input);
+        //for simplicity, check if input has a starting bracket
+        if (input[0] !== "(") {
+            input = `(${input})`;
+        }
         //create an object or array container
         let inpArr = [];
-        //store the first expression in a different array untouched
-        inpArr[inpArr.length] = input;
         //store a split of the expression
-        inpArr[inpArr.length] = input.split('');
-        const arr1 = inpArr[inpArr.length - 1];
+        const arr1 = input.split('');
+        inpArr[inpArr.length] = arr1;
         //loop through the splited array and for every ( open up another store array
+        const newArr = (i) => {
+            inpArr[inpArr.length] = [];
+            for (let j = 1; j < inpArr.length; j++) {
+                inpArr[j].push(arr1[i]);
+            }
+        }
         for (let i = 0; i < arr1.length; i++) {
-            if (/\(/.test(arr1[i]) && !(/s/.test(arr1[i - 1]) || /t/.test(arr1[i - 1]) || /n/.test(arr1[i - 1]) || /g/.test(arr1[i - 1]))) {
-                inpArr[inpArr.length] = [];
-                for (let j = 2; j < inpArr.length; j++) {
-                    inpArr[j].push(arr1[i]);
-                }
-            } else if (/s/.test(arr1[i]) && (/i/.test(arr1[i+1]) || /q/.test(arr1[i+1]))) {//for sin or sqrt
-                inpArr[inpArr.length] = [];
-                for (let j = 2; j < inpArr.length; j++) {
-                    inpArr[j].push(arr1[i]);
-                }
-            } else if (/t/.test(arr1[i]) && /a/.test(arr1[i+1])) { //for tan
-                inpArr[inpArr.length] = [];
-                for (let j = 2; j < inpArr.length; j++) {
-                    inpArr[j].push(arr1[i]);
-                }
-            } else if (/c/.test(arr1[i]) && /o/.test(arr1[i + 1])) { //for cos
-                inpArr[inpArr.length] = [];
-                for (let j = 2; j < inpArr.length; j++) {
-                    inpArr[j].push(arr1[i]);
-                }
+            if (/\(/.test(arr1[i]) && !(/s|t|n|g/.test(arr1[i - 1]))) {
+                newArr(i);
+            } else if (/s/.test(arr1[i]) && (/i|q/.test(arr1[i + 1])) && !(/a/.test(arr1[i - 1]))) {//for sin or sqrt
+                newArr(i);
+            } else if (/t/.test(arr1[i]) && /a/.test(arr1[i + 1]) && !(/a/.test(arr1[i - 1]))) { //for tan
+                newArr(i);
+            } else if (/c/.test(arr1[i]) && /o/.test(arr1[i + 1]) && !(/a/.test(arr1[i - 1]))) { //for cos
+                newArr(i);
+            } else if (/a/.test(arr1[i]) && (/s|c|t/.test(arr1[i + 1]))) {// for asin or atan
+                newArr(i);
             } else if (/l/.test(arr1[i]) && /o/.test(arr1[i + 1])) { //for log
-                inpArr[inpArr.length] = [];
-                for (let j = 2; j < inpArr.length; j++) {
-                    inpArr[j].push(arr1[i]);
-                }
-            } else {
-                for (let j = 2; j < inpArr.length; j++) {
-                    // for (let k = 0; k < inpArr[j]; k++) {
-                    //     inpArr[j][k] = arr1[i];
-                    // }
+                newArr(i);
+            } else if (/e/.test(arr1[i]) && /x/.test(arr1[i + 1])) { //for exp
+                newArr(i);
+            } else if (/\d+/.test(arr1[i]) && /\^|\!/.test(arr1[i + 1])) { //for ! and powers
+                newArr(i);
+            } else if (/\√|\∛/.test(arr1[i]) && /\(/.test(arr1[i + 1])) { //for ! and powers
+                newArr(i);
+            } else {//for numbers and symbols
+                for (let j = 1; j < inpArr.length; j++) {
                     inpArr[j].push(arr1[i]);
                 }
             }
         }
         //for every ) close the immediate store array
         //when loop is done, loop through object properties or array's arrays and
-        for (let i = 1; i < inpArr.length; i++) { //to eliminate excess brackets at the end of arrays/expressions
+        for (let i = 0; i < inpArr.length; i++) { //to eliminate excess brackets at the end of arrays/expressions
             for (let j = 0; j < inpArr[i].length; j++) {
                 const curArr = inpArr[i];
                 const curArrLen = curArr.length;
                 const lastchar = curArr[curArrLen - 1];
                 const secLastChar = curArr[curArrLen - 2];
-                //if (curArr[j] === ")") {
                 if (lastchar === ")" && secLastChar === ")") {
                     curArr.pop();
                 }
-                //}
             }
         }
+        inpArr.reverse();
         console.log(inpArr);
-        console.log(inpArr[inpArr.length - 1].join(""));
-        //evaluate each expression
-        //evaluate the first expression
-        //check if the first char is a bracket or alpha
-        //if it is a bracket check if there is a closing bracket, if not add one and eval
-        //if first char is an alpha, check to find operand, extract, eval and remove closing bracket if there's one
-        //eval remaining expression
 
-        //join the next expression array and replace with value of first and then evaluate
-    }();
+        const solve = (expression, pre, res) => {
+            const toDeg = 3.1416 / 180; //to convert degrees to radians
+            const toRad = 180 / 3.14159;
+            const genPre = () => {//for 3lettered operands like log and sin
+                for (let i = 4; i < expression.length; i++) {
+                    if (expression[i] != ')') {
+                        pre += expression[i];
+                    } else { break; }
+                }
+            }
+            const genPre1 = () => {//for symbol operands like √
+                for (let i = 1; i < expression.length; i++) {
+                    if (expression[i] != ')') {
+                        pre += expression[i];
+                    } else { break; }
+                }
+            }
+            const genPre4 = () => {//for 4lettered operands like sqrt and asin
+                for (let i = 5; i < expression.length; i++) {
+                    if (expression[i] != ')') {
+                        pre += expression[i];
+                    } else { break; }
+                }
+            }
+
+            if (expression[0] === "(" && expression[expression.length - 1] === ')' && !(/log|sin|asin|cos|tan|sqrt|acos|atan|\∛|\√/i.test(expression))) {//could use endswith and startswith functions
+                pre = expression;
+                console.log('no special math needed');
+                if (expression.match(/\)/g).length > expression.match(/\(/g).length) { //if ) is more than (. g in regex very important
+                    pre = expression.slice(0, expression.length - 1);
+                    res = eval(pre);
+                } else if (expression.match(/\)/g).length < expression.match(/\(/g).length) {
+                    pre = `(${expression}`;
+                    res = eval(pre);
+                } else {
+                    res = eval(expression);
+                }
+            } else {
+                if (/log/i.test(expression)) {
+                    genPre();
+                    res = Math.log10(Number(eval(pre)));
+                    pre = expression.replace(/log\(\d+\)/, res);
+                } else if (/exp/i.test(expression)) {
+                    genPre();
+                    res = Math.exp(Number(eval(pre)));
+                    pre = expression.replace(/log\(\d+\)/, res);
+                } else if (/asin/i.test(expression)) {
+                    genPre4()
+                    res = Math.asin(Number(eval(pre))) * toRad;
+                    pre = expression.replace(/asin\((\d\.\d+)|(\d+)\)/, res);
+                } else if (/acos/i.test(expression)) {
+                    genPre4();
+                    res = Math.acos(Number(eval(pre))) * toRad;
+                    pre = expression.replace(/acos\((\d\.\d+)|(\d+)\)/, res);
+                } else if (/atan/i.test(expression)) {
+                    genPre4();
+                    res = Math.atan(Number(eval(pre))) * toRad;
+                    pre = expression.replace(/atan\((\d\.\d+)|(\d+)\)/, res);
+                } else if (/sin/i.test(expression)) {
+                    genPre();
+                    res = Math.sin(Number(eval(pre)) * toDeg);
+                    pre = expression.replace(/sin\(\d+\)/, res);
+                } else if (/cos/i.test(expression)) {
+                    genPre();
+                    res = Math.cos(Number(eval(pre)) * toDeg);
+                    pre = expression.replace(/cos\(\d+\)/, res);
+                } else if (/tan/i.test(expression)) {
+                    genPre();
+                    res = Math.tan(Number(eval(pre)) * toDeg);
+                    pre = expression.replace(/tan\(\d+\)/, res);
+                } else if (/\√/i.test(expression)) { //9²8³∛(√(
+                    genPre1();
+                    res = Math.sqrt(Number(eval(pre)));
+                    pre = expression.replace(/\√\d+\)/, res);
+                } else if (/\∛/i.test(expression)) { //9²8³∛(√(
+                    genPre1();
+                    res = Math.cbrt(Number(eval(pre)));
+                    pre = expression.replace(/\∛\d+\)/, res);
+                } else if (/\d+\^\d+/.test(expression)) { //for x^y
+                    const vals = expression.match(/\d+\^\d+/).join('').split('^');
+                    res = Math.pow(Number(vals[0]), Number(vals[1]));
+                    pre = expression.replace(/\d+\^\d+/, res);
+                } else if (/\d+\!/.test(expression)) { //for factorial
+                    const val = expression.match(/\d+\!/).join('').split('!')[0];
+                    let x = Number(val);
+                    let factorial = 1;
+                    while (x > 1) {
+                        factorial *= x;
+                        x--;
+                    }
+                    res = factorial;
+                    pre = expression.replace(/\d+\!/, res);
+                }
+            }
+            console.log('res is ', res);
+            return {
+                value1: expression,
+                value2: pre,
+                value3: res
+            };
+        }
+
+        const evaluate = (i) => {
+            console.log(inpArr[i]);
+            let equation = inpArr[i];
+            let nextExp = inpArr[i + 1];
+            let result = 0;
+            let preEval = '';
+            //evaluate the first expression
+            //check if the first char is a bracket or alpha
+            let values = solve(equation, preEval, result);
+            equation = values.value1;
+            preEval = values.value2;
+            result = values.value3;
+            //if it is a bracket check if there is a closing bracket, if not add one and eval
+            if (preEval.charAt(preEval.length - 1) === ')' && preEval[0] !== '(' && (preEval.charAt(3) || preEval.charAt(4)) !== '(') {
+                preEval = '(' + preEval;
+            }
+
+            console.log('preEval before result ', preEval);
+            try {
+                result = eval(preEval);
+                //if first char is an alpha, check to find operand, extract, eval and remove closing bracket if there's one
+                if (inpArr[i + 1] !== undefined) { inpArr[i + 1] = inpArr[i + 1].replace(equation, `${result})`); }
+                console.log('nextExp after replacement ', nextExp);
+                let j = i + 1;
+                if (inpArr[i + 1] !== undefined) {
+                    for (; j < inpArr.length; j++) { //to replace all arrays with updated result
+                        inpArr[j] = inpArr[j].replace(equation, `${result})`);
+                    }
+                }
+            } catch (error) {
+                console.log(error.stack);
+                console.log('catch block');
+                //replace the old expression that led here with the new expression
+                const replacee = inpArr[i]; //the old expression that led here with the new expression
+                console.log(inpArr);
+                console.log(preEval);
+                equation = preEval;
+                preEval = '';
+                let values = solve(equation, preEval, result);
+                equation = values.value1;
+                preEval = values.value2;
+                result = values.value3;
+                if (inpArr[i + 1] !== undefined) { inpArr[i + 1] = inpArr[i + 1].replace(replacee, `${result})`); }
+            }
+
+            //eval remaining expression
+            //join the next expression array and replace with value of first and then evaluate
+            console.log(preEval);
+            console.log('result for ', i, 'is', result);
+            console.log(nextExp);
+            console.log('last result is ', result);
+            display.innerHTML = result;
+            ans = result;
+            previousExp.push(inputDisplay.innerHTML);
+        }
+        for (let i = 0; i < inpArr.length; i++) { //change each array in array to string of expressions
+            inpArr[i] = inpArr[i].join('');
+        }
+        if (inpArr[inpArr.length - 1] === inpArr[inpArr.length - 2]) {
+            inpArr.pop();
+        }
+        //evaluate each expression
+        for (let i = 0; i < inpArr.length; i++) {
+            evaluate(i);
+        }
+    };
 </script>

@@ -1,13 +1,13 @@
-const APP_PREFIX = "Calc_";
-const VERSION = "version_1";
-const cacheName = `${APP_PREFIX}${VERSION}`;
-const cacheFiles = [
+var APP_PREFIX = "Calc_";
+var VERSION = "version_1";
+var cacheName = APP_PREFIX + VERSION;
+var cacheFiles = [
   '/Calc/',
-  '/Calc/calc.js',
   '/Calc/index.html',
   '/Calc/styles.css',
-  '/Calc/bootstrap.min.css',
-  '/Calc/bootstap.min.js'
+  '/Calc/calc.js',
+  '/Calc/bootstrap.min.js',
+  '/Calc/bootstrap.min.css'
 ];
 
 self.addEventListener('install', (e) => {
@@ -22,12 +22,12 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keyList) => {
-      let cacheWhiteList = keyList.filter((key) => {
+      var cacheWhiteList = keyList.filter((key) => {
         return key.indexOf(APP_PREFIX);
       })
       cacheWhiteList.push(cacheName);
       return Promise.all(keyList.map((key, i) => {
-        if (cacheWhitelist.indexOf(key) === -1) {
+        if (cacheWhiteList.indexOf(key) === -1) {
           console.log('deleting cache : ' + keyList[i])
           return caches.delete(keyList[i])
         }
