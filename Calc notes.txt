@@ -18,3 +18,14 @@ Response should be more interactive (optional)
 Requires a valid name to show calc (optional)
 
 -should accept expressions outside the range of eval()
+
+Left to implement
+area
+e raised to pow y
+Ln
+Log a to x
+arrows
+fraction
+nCr
+nPr
+nth root

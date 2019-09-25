@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>calculator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="calcicon.png" type="image/x-icon">
     <link rel="stylesheet" href="bootstrap.min.css">
 </head>
+
 <body>
-    <div class=" cont mt-5 bg-light">
-        <table  class="table " style="width: 100%;">
+    <div class=" cont mt-5 bg-light" style="margin-top: 1em !important;">
+        <table class="table " style="width: 100%;">
             <tr class="empty">
 
             </tr>
-            <tr class=" mt-5" style="width:100%;" >
-              <td id="inputLabel" class="inputLabel pt-5"></td>  
+            <tr class=" mt-5" style="width:100%;">
+                <td id="inputLabel" class="inputLabel pt-5"></td>
             </tr>
-            <tr id="input" class=" mt-5" style="width:100%;">
-              <td><input style="width:100%;"/></td>
-            </tr>
-            <tr id="quadInput" class=" mt-5" style="width:100%; display: none;">
+            <tr class=" mt-5" style="width:100%;">
                 <td>
+                    <div id="input" contenteditable="true"></div>
+                </td>
+            </tr>
+            <tr id="mean" class="hide mt-5" style="width:100%; display: none !important;">
+                <td>
+                    <input id="meanInput" onkeypress="check(event.key);" placeholder="Input values separated by a comma">
+                    <button class="math" id="solveBackBtn" onclick="mean();" style="width: 3em;">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this);" value="AC" 
+                    style="background-color: red; color: white; width: 3em;">X</button>
+                </td>
+            </tr>
+            <tr id="areaSelect1" class="hide mt-5" style="width:100%; display: none !important;">
+                <td><button class="math area" onclick="pushBtn(this)" value="circle">&cir;</button></td>
+                <td><button class="math area" onclick="pushBtn(this)" value="triSelect">&trisb;</button></td>
+                <td><button class="math area" onclick="pushBtn(this)" value="rectangle">&rect;</button></td>
+                <td><button class="math area" onclick="pushBtn(this)" value="trapezium">&trpezium;</button></td>
+                <td><button class="math area" onclick="pushBtn(this)">next</button></td>
+            </tr>
+            <tr id="areaSelect2" class="hide mt-5" style="width:100%; display: none !important;">
+                <td><button class="math area" onclick="pushBtn(this)">sector</button></td>
+                <td><button class="math area" onclick="pushBtn(this)">cylinder</button></td>
+                <td><button class="math area" onclick="pushBtn(this)">sphere</button></td>
+                <td><button class="math area" onclick="pushBtn(this)">cone</button></td>
+                <td><button class="math area" onclick="pushBtn(this)">prev</button></td>
+            </tr>
+            <tr id="triSelect" class="hide mt-5" style="width:100%; display: none !important;">
+                <td><button class="math area" onclick="pushBtn(this)" value="triHeight">&trisb;(h)</button></td>
+                <td><button class="math area" onclick="pushBtn(this)" value="triAng">&trisb;(&ang;C)</button></td>
+                <td><button class="math area" onclick="pushBtn(this)" value="triAbc">&trisb;(abc)</button></td>
+                <td><button class="math area" onclick="pushBtn(this)"></button></td>
+                <td><button class="math area" onclick="pushBtn(this)">Back</button></td>
+            </tr>
+            <tr id="quadInput" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
                     <input class="int" id="a">x<sup>2</sup>
                     <input class="int" id="b">x
                     <input class="int" id="c"> = 0
-                      
-                    <button style="margin-left: 9em;" onclick="solveQuad();">solve</button>
+
+                    <button class="math" id="solvebtn" onclick="solveQuad();">solve</button>
                 </td>
             </tr>
-            <tr id="simul" class=" mt-5" style="width:100%; display: none;">
-                <td>
+            <tr id="simul" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
                     <div class="sim">
                         <input class="eqn1" id="a">x
                         <input class="eqn1" id="b">y = <input id="c" class="eqn1">
@@ -39,73 +74,190 @@
                     <div class="sim">
                         <input class="eqn2" id="d">x
                         <input class="eqn2" id="e">y = <input id="f" class="eqn2">
-                        
-                        <button style="margin-left: 9em;" onclick="solveSim();">solve</button>
+
+                        <button class="math" id="solvebtn" onclick="solveSim();">solve</button>
                     </div>
                 </td>
             </tr>
-            <div class="row">
-            <tr class="tr d-flex">
-                <td class=" ac "><button onclick="pushBtn(this);">AC</button></td>
-                <td ><button onclick="pushBtn(this);">quad</button></td>  
-                <td ><button onclick="pushBtn(this);">simul</button></td>  
-                <td ><button onclick="pushBtn(this);">del</button></td>  
+            <tr id="triAbc" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    a =<input class="int" id="tri_a">
+                    b =<input class="int" id="tri_b">
+                    c =<input class="int" id="tri_c">
+
+                    <button class="math" id="solveBackBtn" onclick="triAbc();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
             </tr>
+            <tr id="triAng" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    a =<input class="int" id="triA_a">
+                    b =<input class="int" id="triA_b">
+                    &ang;C =<input class="int" id="ang_c">
+
+                    <button class="math" id="solveBackBtn" onclick="triAng();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="triHeight" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    b =<input class="int" id="Hb">
+                    h =<input class="int" id="h">
+
+                    <button class="math" id="solveBackBtn" onclick="triHeight();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="rectangle" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    b =<input class="int" id="rect_b">
+                    l =<input class="int" id="rect_l">
+
+                    <button class="math" id="solveBackBtn" onclick="rectangle();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="circle" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    r =<input class="int" id="circle_r">
+
+                    <button class="math" id="solveBackBtn" onclick="circle();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="sphere" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    r =<input class="int" id="sphere_r">
+
+                    <button class="math" id="solveBackBtn" onclick="sphere();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="cone" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    r =<input class="int" id="cone_r">
+                    l =<input class="int" id="cone_l">
+
+                    <button class="math" id="solveBackBtn" onclick="cone();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="cylinder" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    r =<input class="int" id="cyl_r">
+                    h =<input class="int" id="cyl_h">
+
+                    <button class="math" id="solveBackBtn" onclick="cone();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="sector" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    r =<input class="int" id="sec_r">
+                    &ang;&theta; = <input class="int" id="theta">
+
+                    <button class="math" id="solveBackBtn" onclick="sector();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+            <tr id="trapezium" class="hide mt-5" style="width:100%; display: none;">
+                <td class="tdeqn">
+                    a =<input class="int" id="trap_a">
+                    b =<input class="int" id="trap_b">
+                    h =<input class="int" id="trap_h">
+            
+                    <button class="math" id="solveBackBtn" onclick="trapezium();">solve</button>
+                    <button class="math" id="solveBackBtn" onclick="pushBtn(this)">Back</button>
+                </td>
+            </tr>
+
+            <div class="row">
+                <tr class="tr d-flex justify-content-center">
+                    <td><button class="math r6" onclick="pushBtn(this);" value="quadInput">quad</button></td>
+                    <td><button class="math r6" onclick="pushBtn(this);">area</button></td>
+                    <td><button class="math r6" onclick="prevExp(+1);">&darr;</button></td>
+                    <td><button class="math r6" onclick="prevExp(-1)">&uarr;</button></td>
+                    <td><button class="math r6" onclick="pushBtn(this);" value="mean">x&#772;</button></td>
+                    <td><button class="math r6" onclick="pushBtn(this);">simul</button></td>
+                </tr>
             </div>
             <tr class="tr d-flex justify-content-center">
-                <td><button class="math" onclick="pushBtn(this);">sin</button></td>
-                <td><button class="math" onclick="pushBtn(this);">cos</button></td>
-                <td><button class="math" onclick="pushBtn(this);">tan</button></td>
-                <td><button class="math" onclick="pushBtn(this);">^2</button></td>
+                <td><button class="math r6" onclick="pushBtn(this)">%</button></td>
+                <td><button class="math r6" onclick="pushBtn(this)">&pi;</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);">(</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);">)</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="log(">log<sub>10</sub></button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="^">x<sup>y</sup></button></td>
+            </tr>
+            <tr class="tr d-flex justify-content-center">
+                <td><button class="math r6" onclick="pushBtn(this);" value="sin(">sin</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="cos(">cos</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="tan(">tan</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="e^">e<sup>y</sup></button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="Ln(">Ln</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="<sup>-1</sup>">x<sup>-1</sup></button></td>
             </tr>
 
             <tr class="tr d-flex justify-content-center">
-                <td><button class="math" onclick="pushBtn(this);">log</button></td>
-                <td><button class="math" onclick="pushBtn(this);">exp</button></td>
-                <td><button class="math" onclick="pushBtn(this);">!</button></td>
-                <td><button class="math" onclick="pushBtn(this);">^3</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="C"><sup>n</sup>C<sub>r</sub></button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="P"><sup>n</sup>P<sub>r</sub></button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="log<sub>2</sub>(">log<sub>2</sub></button>
+                </td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="!">x!</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="10^">10<sup>x</sup></button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="&sup2">x<sup>2</sup></button></td>
             </tr>
 
             <tr class="tr d-flex justify-content-center">
-                <td><button class="math" onclick="pushBtn(this);">sin<sup>-1</sup></button></td>
-                <td><button class="math" onclick="pushBtn(this);">cos<sup>-1</sup></button></td>
-                <td><button class="math" onclick="pushBtn(this);">tan<sup>-1</sup></button></td>
-                <td><button class="math" onclick="pushBtn(this);">sqrt</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="sin<sup>-1</sup>(">sin<sup>-1</sup></button>
+                </td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="cos<sup>-1</sup>(">cos<sup>-1</sup></button>
+                </td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="tan<sup>-1</sup>(">tan<sup>-1</sup></button>
+                </td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="&radic;(">&radic;x</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="&#x221B;(">&#x221B;x</button></td>
+                <td><button class="math r6" onclick="pushBtn(this);" value="&sup3">x<sup>3</sup></button></td>
             </tr>
 
             <tr class="tr d-flex justify-content-center">
-                <td><button onclick="pushBtn(this);">7</button></td>
-                <td><button onclick="pushBtn(this);">8</button></td>
-                <td><button onclick="pushBtn(this);">9</button></td>
-                <td><button onclick="pushBtn(this);">*</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">7</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">8</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">9</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);"
+                        style="background-color: mediumblue; color: white;">AC</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);"
+                        style="background-color: red; color: white;">Del</button>
+                </td>
             </tr>
             <tr class="tr d-flex justify-content-center">
-                <td><button onclick="pushBtn(this);">4</button></td>
-                <td><button onclick="pushBtn(this);">5</button></td>
-                <td><button onclick="pushBtn(this);">6</button></td>
-                <td><button onclick="pushBtn(this);">-</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">4</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">5</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">6</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">x</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">-</button></td>
             </tr>
             <tr class="tr d-flex justify-content-center">
-                <td><button onclick="pushBtn(this);">3</button></td>
-                <td><button onclick="pushBtn(this);">2</button></td>
-                <td><button onclick="pushBtn(this);">1</button></td>
-                <td><button onclick="pushBtn(this);">+</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">1</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">2</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">3</button></td>
+                <td><button class="math r5" id="equalTo" onclick="pushBtn(this);">=</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">+</button></td>
             </tr>
             <tr class="tr d-flex justify-content-center ">
-                <td><button onclick="pushBtn(this);">0</button></td>
-                <td><button onclick="pushBtn(this);">.</button></td>
-                <td><button id="equalTo" onclick="pushBtn(this);">=</button></td>
-                <td><button onclick="pushBtn(this);">/</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">0</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">.</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">/</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);" value="exp(">exp</button></td>
+                <td><button class="math r5" onclick="pushBtn(this);">Ans</button></td>
             </tr>
         </table>
     </div>
-<script>
-    if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('/Calc/sw.js', {scope: '/Calc/'});
-    }
-</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-<script src="bootstrap.min.js"></script>
-<script src="calc.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="calc.js"></script>
 </body>
+
 </html>
