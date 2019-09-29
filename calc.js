@@ -125,7 +125,6 @@ const trapezium = () => {
 const evaluate = function () {
   let input = inputDisplay.innerHTML;
   previousExp.push(input);
-  console.log('input: ', input);
   input = input.replace(/\)\(/g, ')*(');
   input = input.replace(/\%/g, '/100');
   input = input.replace(/Ans/g, ans);
@@ -166,9 +165,7 @@ const evaluate = function () {
   }
   if (/(\)|\d+(\.\d+)?)\π/.test(input)) { //to replace 3π or )π with 3*π
     input = input.replace(/\)π/g, ')*π');
-    console.log('pi');
     const matches = input.match(/(\)|\d+(\.\d+)?)\π/g);
-    console.log(matches);
     if (matches !== null) {
       matches.forEach((match, index) => {
         const digit = match.match(/\d+(\.\d+)?/)[0];
@@ -190,7 +187,6 @@ const evaluate = function () {
     console.log('replacer block gave: ', input);
   }
   input = input.replace(/\π/g, Math.PI);
-  console.log('input: ', input);
   //Solve squares, roots, P and likes before getting and splitting input arr
   const squareRoot = (x) => {
     return Math.sqrt(Number(x));
@@ -248,6 +244,30 @@ const evaluate = function () {
         }
       }
     }
+    if (/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/.test(equation)) { //for nCr
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/g);
+      matches = [...new Set(matches)];
+      let rslt = 0;
+      for (let i = 0; i < matches.length; i++) {
+        const valArr = matches[i].split('C');
+        const n = valArr[0].match(/\d+(\.\d+)?/)[0];
+        const r = valArr[1].match(/\d+(\.\d+)?/)[0];
+        rslt = combine(n, r);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/, `${rslt}`);
+      }
+    }
+    if (/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/.test(equation)) { //for nPr
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/g);
+      matches = [...new Set(matches)];
+      let rslt = 0;
+      for (let i = 0; i < matches.length; i++) {
+        const valArr = matches[i].split('P');
+        const n = valArr[0].match(/\d+(\.\d+)?/)[0];
+        const r = valArr[1].match(/\d+(\.\d+)?/)[0];
+        rslt = permutate(n, r);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/, `${rslt}`);
+      }
+    }
     //BODMAS first
     if (/(?<![a-zA-Z∛√])\([-+]{0,1}\d+(\.\d+)?(?![a-zA-Z(])\)/.test(equation)) {//for single nums in brackets
       let matches = equation.match(/(?<![a-zA-Z∛√])\([-+]{0,1}\d+(\.\d+)?(?![a-zA-Z(])\)/g);
@@ -259,44 +279,44 @@ const evaluate = function () {
         equation = equation.replace(/(?<![a-zA-Z∛√])\([-+]{0,1}\d+(\.\d+)?(?![a-zA-Z(])\)/, `${rslt}`);
       }
     }
-    if (/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(])/.test(equation)) {//for divisions
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(])/g);
+    if (/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(*])/.test(equation)) {//for divisions
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(*])/g);
       matches = [...new Set(matches)];
       let rslt = 0;
       for (let i = 0; i < matches.length; i++) {
-        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(])/)[0];
+        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(*])/)[0];
         rslt = eval(match);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(])/, `${rslt}`);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\/\d+(\.\d+)?(?![a-zA-Z(*])/, `${rslt}`);
       }
     }
-    if (/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(])/.test(equation)) {//for multiplication
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(])/g);
+    if (/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(*])/.test(equation)) {//for multiplication
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(*])/g);
       matches = [...new Set(matches)];
       let rslt = 0;
       for (let i = 0; i < matches.length; i++) {
-        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(])/)[0];
+        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(*])/)[0];
         rslt = eval(match);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(])/, `${rslt}`);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\*\d+(\.\d+)?(?![a-zA-Z(*])/, `${rslt}`);
       }
     }
     if (/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(])/.test(equation)) {//for addition
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(])/g);
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(*])/g);
       matches = [...new Set(matches)];
       let rslt = 0;
       for (let i = 0; i < matches.length; i++) {
-        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(])/)[0];
+        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(*])/)[0];
         rslt = eval(match);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(])/, `${rslt}`);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\+\d+(\.\d+)?(?![a-zA-Z(*])/, `${rslt}`);
       }
     }
-    if (/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(])/.test(equation)) {//for subtraction
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(])/g);
+    if (/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(*])/.test(equation)) {//for subtraction
+      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(*])/g);
       matches = [...new Set(matches)];
       let rslt = 0;
       for (let i = 0; i < matches.length; i++) {
-        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(])/)[0];
+        let match = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(*])/)[0];
         rslt = eval(match);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(])/, `${rslt}`);
+        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?\-\d+(\.\d+)?(?![a-zA-Z(*])/, `${rslt}`);
       }
     }
     if (/(?<![a-zA-Z])\d+(\.\d+)?p\d+(\.\d+)?/.test(equation)) { //for x^y and ()
@@ -337,30 +357,6 @@ const evaluate = function () {
         rslt = Math.pow(Number(val0), -Number(val1));
         console.log('rslt: ', rslt);
         equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?m\d+(\.\d+)?/, `${rslt}`);
-      }
-    }
-    if (/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/.test(equation)) { //for nCr
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/g);
-      matches = [...new Set(matches)];
-      let rslt = 0;
-      for (let i = 0; i < matches.length; i++) {
-        const valArr = matches[i].split('C');
-        const n = valArr[0].match(/\d+(\.\d+)?/)[0];
-        const r = valArr[1].match(/\d+(\.\d+)?/)[0];
-        rslt = combine(n, r);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?C\d+(\.\d+)?/, `${rslt}`);
-      }
-    }
-    if (/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/.test(equation)) { //for nPr
-      let matches = equation.match(/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/g);
-      matches = [...new Set(matches)];
-      let rslt = 0;
-      for (let i = 0; i < matches.length; i++) {
-        const valArr = matches[i].split('P');
-        const n = valArr[0].match(/\d+(\.\d+)?/)[0];
-        const r = valArr[1].match(/\d+(\.\d+)?/)[0];
-        rslt = permutate(n, r);
-        equation = equation.replace(/(?<![a-zA-Z])\d+(\.\d+)?P\d+(\.\d+)?/, `${rslt}`);
       }
     }
     if (/(?<![a-zA-Z])\d+(\.\d+)?\!/.test(equation)) { //for factorial
@@ -498,7 +494,7 @@ const evaluate = function () {
       }
     }
     if (eqnRegex.test(equation) === true) {
-      console.log(true);
+      console.log(true, equation);
       equation = checkInp(equation);
     }
     try {
@@ -535,7 +531,6 @@ const prevExp = function () {
 }();
 const pushBtn = (obj) => {
   const pushed = obj.value || obj.innerHTML;
-  console.log(pushed);
   const inpLen = inputDisplay.innerHTML.length;
   switch (pushed) {
     case 'AC':
